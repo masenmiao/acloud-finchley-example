@@ -191,14 +191,8 @@ project("acloud-turbine") {
             compile("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard")
         }
         }
-        project("acloud-zipkin") {//todo stream use
-            description = "acloud-zipkin"
+        //project("acloud-zipkin") {//todo stream use
 
-            dependencies {
-        compile(project(":acloud-common"))
-        compile("org.springframework.cloud:spring-cloud-starter-zipkin")
-    }
-}
 
 
 
