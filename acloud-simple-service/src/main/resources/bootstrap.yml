@@ -1,0 +1,28 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.ip:acloud-eureka}:8501/eureka/  
+  instance:
+    prefer-ip-address: true  #未配置hostname时 使用本机ip地址作为主机名 ipAddress是ip地址
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID
+    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+    lease-expiration-duration-in-seconds: 10  # 发呆时间，即服务续约到期时间（缺省为90s）      
+# acloud-eureka 通过 componse links 配置
+spring:
+  cloud:
+    netutils:
+      preferred-networks=${PREFERRED_NETWORKS}
+    config:
+      name: application-common,acloud-simple
+      lable: ${config.lable:master}
+      profile: ${config_profile:dev}
+      #windows docker 环境，需要替换环境参数为docker
+      #config client must add enabled property,however connect to config server refuze
+      enabled: true
+      failFast: false
+      retry:
+        maxAttempts: 5
+      discovery:
+        enabled: true
+        serviceId: cloud-config-server
+

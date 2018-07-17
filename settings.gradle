@@ -1,0 +1,11 @@
+rootProject.name = 'acloud-finchley-example'
+include "acloud-common"
+include "acloud-eureka"
+include "acloud-config"
+include "acloud-gateway"
+include "acloud-admin"
+include "acloud-turbine"
+include "acloud-simple-api"
+include "acloud-simple-service"
+include "acloud-simple-ui"
+

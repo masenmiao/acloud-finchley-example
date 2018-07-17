@@ -1,0 +1,22 @@
+server:
+  port: ${eureka-port:8501}
+
+eureka:
+  client:
+  #是否注册自身到eureka服务器
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka
+  #可能需要增加一个 url的参数，如 eureka.serviceUrl，供client端引用
+  #或者，这里eureka集群，这里需要配置多个ip地址，逗号分隔
+  server:
+    enable-self-preservation: false           # 关闭自我保护模式（缺省为打开）
+    eviction-interval-timer-in-ms: 5000       # 续期时间，即扫描失效服务的间隔时间（缺省为60*1000ms）
+  instance:
+    hostname: ${eureka.ip:localhost}
+    
+#manager url:http://localhost:8501/
+security:    
+  basic:
+    enabled: false #不启动认证  

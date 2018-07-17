@@ -1,0 +1,41 @@
+server: 
+  port: ${simple.ui.port:8701}
+
+#,http\://zlhost\:8762/eureka/
+  
+spring:
+  application:
+    name: cloud-simple-ui
+  cloud:
+    stream:
+      bindings:
+        #Source类， 默认binding名称为output,Sink为input
+        output:
+          #destination，发布－订阅模型里面的topic
+          destination: cloud-stream  
+          #对应Barista 的输出渠道 
+        output_channel:
+          destination: mydest  
+          
+  rabbitmq:
+    host: ${rabbitmq.ip:rabbitmq}
+    port: 5672
+    username: guest
+    password: guest
+  zipkin:
+    #defult is true,to use zipkin,false:not use
+    enabled: true
+    base-url: http://${zipkin.ip:acloud-zipkin}:9411/
+    sleuth:
+      sampler:
+        # 采样率，默认0.1即10%,如需测试时每次都看到trace则修改为1.0，但对性能有影响，注意上线时修改为合理值
+        probability: 1.0
+#zipkin 之后 会用 spring-cloud-sleuth-stream , 依赖 MQ，上面是临时的可以用link，eureka没有一个能像config的服务配置
+
+#ribbon config
+#cloud-simple-service.ribbon.ConnectTimeout=5000
+#cloud-simple-service.ribbon.ReadTimeout=10000
+
+feign:
+  hystrix:
+    enabled: true

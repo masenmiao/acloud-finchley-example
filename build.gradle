@@ -1,0 +1,204 @@
+buildscript {
+    ext {
+        springBootVersion = '2.0.2.RELEASE'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        maven {
+            url 'https://repo.spring.io/libs-milestone'
+        }
+    }
+    dependencies {
+        //classpath "io.spring.gradle:dependency-management-plugin:1.0.5.RELEASE"
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        //classpath 'org.junit.platform:junit-platform-gradle-plugin:1.0.0'
+        classpath('se.transmode.gradle:gradle-docker:1.2')//这个有冲突，bootRepackage可能找不到
+    }
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '4.4.1'
+}
+
+
+subprojects {
+    group = "acloud-example"
+    version = version
+    //除springcloud,springboot定义版本号，已有的依赖由cloud， boot 决定，剩下没有的统一在下面定义版本号
+    ext.springBootMyBatisVersion = '1.3.2'
+    ext.junitVersion = "4.12"
+    ext.mysqlVersion = "5.1.32"
+    ext.commonslangVersion = "2.6"
+    ext.commonslang3Version = "3.3.2"
+    ext.commonsioVersion = "1.3.2"
+    ext.commonsnetVersion = "3.3"
+    ext.jsqlparserVersion = "4.12"
+    ext.slf4jVersion = "1.7.2"
+    ext.commonsfileuploadVersion = "1.3.1"
+    ext.lombokVersion = "1.16.16"
+    ext.swagger2Version = "2.9.0"//暂时不支持
+
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'eclipse'
+    apply plugin: "io.spring.dependency-management"
+    //apply plugin: "application"
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'docker'
+    //apply plugin: 'org.junit.platform.gradle.plugin'
+
+    //startScripts.enabled = false
+    repositories {
+        mavenLocal()
+        //maven {url 'http://maven.aliyun.com/nexus/content/groups/public/'},ali openfeign包不对, spring-boot-starter-rocketmq只能在ali download
+        mavenCentral()//中央仓库没有最新的springcloud包
+        //maven {url "https://repo.spri.io/snapshot"}
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+    [compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+    dependencyManagement {
+        imports {
+            mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.RELEASE'
+            mavenBom 'de.codecentric:spring-boot-admin-dependencies:2.0.1'
+        }
+    }
+
+
+
+    dependencies {
+        compileOnly("org.projectlombok:lombok")
+        testCompile("org.springframework.boot:spring-boot-starter-test")
+        testCompile("junit:junit:${junitVersion}")
+        /*  junit 5
+            testCompile("org.junit.jupiter:junit-jupiter-api")
+            testRuntime "org.junit.jupiter:junit-jupiter-engine"
+        */
+        testCompile("io.projectreactor:reactor-test")
+    }
+
+    if (name.contains('common') || name.contains('api')) {
+        println 'name:' + name
+
+        jar { enabled = true }
+        bootJar { enabled = false }
+        //mainClassName = ''//must not be null (Key=Start-Class) 找不到启动类
+        //https://docs.spring.io/spring-boot/docs/current/gradle-plugin/reference/html/
+        //bootRepackage.enabled = false //bootRepackage找不到?
+        //tasks.remove(bootRepackage)
+    } else {
+        task buildDocker(type: Docker, dependsOn: build) {//需要用到docker实例
+//            push = true
+//push 代表会docker push 到远程仓库,我们可以在ci 构建时 ，手动执行docker push，先用执行docker login登录
+//            registry = dockerRegistry
+            applicationName = jar.baseName
+            dockerfile = file('Dockerfile')
+            doFirst {
+                copy {
+                    from jar
+                    into stageDir
+                }
+            }
+        }
+
+    }
+
+}
+
+
+project("acloud-common") {
+    description = "acloud-common"
+
+    dependencies {
+
+        compile("org.apache.commons:commons-lang3:${commonslang3Version}")
+        compile("commons-lang:commons-lang:${commonslangVersion}")
+        compile("org.slf4j:slf4j-api:${slf4jVersion}")
+//        compile("io.springfox:springfox-swagger-ui:${swagger2Version}")
+//        compile("io.springfox:springfox-swagger2:${swagger2Version}")
+
+        compile("org.springframework.boot:spring-boot-starter-actuator")
+        compile("org.springframework.cloud:spring-cloud-starter-config")
+        compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+        compile("org.springframework.cloud:spring-cloud-starter-bus-amqp")
+        compile("org.springframework.cloud:spring-cloud-starter-netflix-hystrix")
+        compile("org.springframework.cloud:spring-cloud-starter-openfeign")//feign 依赖了 ribbon
+        //compile("org.springframework.boot:spring-boot-starter-webflux")
+        compile("org.springframework.cloud:spring-cloud-starter-sleuth")
+
+        compile("de.codecentric:spring-boot-admin-starter-client")
+        //jdk9没有的
+        //compile 'javax.xml.bind:jaxb-api:+'
+        //compile 'com.sun.xml.bind:jaxb-impl:+'
+        //compile 'com.sun.xml.bind:jaxb-core:+'
+        //compile 'javax.activation:activation:+'
+        //compile 'javax.xml.bind:jaxb-api:2.3.0'
+
+        //rocketmq,待整理到service-common
+        //spring-boot-starter-rocketmq只能在ali 仓库 download
+        //compile("org.rocketmq:spring-boot-starter-rocketmq:1.2.0.RELEASE")
+    }
+}
+
+project("acloud-eureka") {
+    description = "acloud-eureka"
+
+    dependencies {
+        compile(project(":acloud-common"))
+        compile("org.springframework.cloud:spring-cloud-starter-netflix-eureka-server") {
+
+        }
+
+    }
+}
+project("acloud-config") {
+    description = "acloud-config"
+
+    dependencies {
+        compile(project(":acloud-common"))
+        compile("org.springframework.cloud:spring-cloud-config-server")
+    }
+}
+
+project("acloud-admin") {
+    description = "acloud-admin"
+
+    dependencies {
+        compile(project(":acloud-common"))
+        compile("de.codecentric:spring-boot-admin-starter-server")
+        //compile("de.codecentric:spring-boot-admin-server-cloud")
+    }
+}
+
+project("acloud-gateway") {
+    description = "acloud-gateway"
+
+    dependencies {
+        compile(project(":acloud-common"))
+        compile("org.springframework.cloud:spring-cloud-starter-gateway")
+    }
+}
+
+project("acloud-turbine") {
+    description = "acloud-turbine"
+
+    dependencies {
+            compile(project(":acloud-common"))
+            compile("org.springframework.cloud:spring-cloud-starter-netflix-turbine")
+            compile("org.springframework.cloud:spring-cloud-starter-netflix-hystrix-dashboard")
+        }
+        }
+        project("acloud-zipkin") {//todo stream use
+            description = "acloud-zipkin"
+
+            dependencies {
+        compile(project(":acloud-common"))
+        compile("org.springframework.cloud:spring-cloud-starter-zipkin")
+    }
+}
+
+
+

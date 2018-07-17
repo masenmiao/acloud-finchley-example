@@ -1,0 +1,47 @@
+server:
+  port: ${turbine.port:8506}
+
+spring:
+  application:
+    name: turbine
+  cloud:
+    config:
+      name: application-common
+      lable: ${config.lable:master}
+      profile: ${config.profile:dev}
+      #config client must add enabled property,however connect to config server refuze
+      enabled: true
+      failFast: true
+      retry:
+        maxAttempts: 5
+      discovery:
+        enabled: true
+        serviceId: cloud-config-server
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest   
+         
+management:
+  security:
+    enabled: false    
+    
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.ip:localhost}:8501/eureka/
+  instance:
+    leaseRenewallIntervallnSeconds: 10#心跳间隔
+    hostname: ${hostname:turbine}
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID
+turbine:
+  aggregator:
+    clusterConfig: default  #指定集群
+  appConfig: cloud-simple-service,cloud-simple-ui  #turbine监控的服务，对应eureka 服务ID,可以有多个，可以放到config配置
+  #clusterNameExpression: metadata['cluster']
+  clusterNameExpression: new String("default")
+  # 1. clusterNameExpression指定集群名称，默认表达式appName；此时：turbine.aggregator.clusterConfig需要配置想要监控的应用名称
+  # 2. 当clusterNameExpression: default时，turbine.aggregator.clusterConfig可以不写，因为默认就是default
+  # 3. 当clusterNameExpression: metadata['cluster']时，假设想要监控的应用配置了eureka.instance.metadata-map.cluster: ABC，则需要配置，同时turbine.aggregator.clusterConfig: ABC

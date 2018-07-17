@@ -1,0 +1,60 @@
+server:
+  port: ${simple.service.port:8601}
+
+spring:
+  application:
+    name: cloud-simple-service
+
+  cloud:
+    #该版本，以下参数必须放到bootstrap.properties文件中
+    #config:
+      #uri: http://127.0.0.1:${config.port:8502}
+      #通过eureka,便于config集群
+      #enabled:  true
+      #name: cloud-config
+      #lable: master
+      #name时 文件 cloud-config-test.properties名称
+      #通过eureka 发现config server服务，上面就不用配置
+      #profile: ${config.profile:dev}
+      #discovery:
+        #enabled: true
+        #serviceId: cloud-config-server
+        #serviceId: config service name
+    stream:
+      bindings:
+        input:
+          destination: cloud-stream
+          #组名一样，有多个实例监听时，只有一个能收到，不一样时，均能收到
+          group: group1
+          consumer:
+            durableSubscription: true
+        input_channel:
+          destination: mydest  
+    #如果没有配置binding的binder，则使用默认的消息服务提供者
+    
+    bus:
+      trace:
+           ## 开启消息跟踪
+        enabled: false
+       
+  rabbitmq:
+    host: ${rabbitmq.ip:rabbitmq}
+    port: 5672
+    username: guest
+    password: guest
+  zipkin:
+    #defult is true,to use zipkin,false:not use
+    enabled: true
+    base-url: http://${zipkin.ip:acloud-zipkin}:9411/
+    sleuth:
+      sampler:
+        probability: 1
+mybatis:
+  mapper-locations: classpath:cloud/simple/service/dao/*.xml
+## 刷新时，关闭安全验证
+management:
+  security:
+    enabled: false
+feign:
+  hystrix:
+    enabled: true

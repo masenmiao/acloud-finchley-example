@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: admin-dashboard
+
+server:
+  port: ${admin.port:8505}
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://${eureka.ip:localhost}:8501/eureka/
+  instance:
+    hostname: ${hostname:admin}
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID
+management:
+  secutiry:
+    enabled: false

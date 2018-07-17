@@ -1,0 +1,49 @@
+server:
+  port: ${simple.service.port:8601}
+
+spring: 
+  application:
+    name: cloud-simple-service
+  boot:
+    #admin监控配置，admin版本待升级到稳定版
+    admin:
+      client:
+        url: http://${admin.ip:localhost}:8505
+        instance:
+          service-base-url:  http://${spring.cloud.client.ip-address}:8601
+          prefer-ip: true
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: cloud-stream
+          #组名一样，有多个实例监听时，只有一个能收到，不一样时，均能收到
+          group: group1
+          consumer:
+            durableSubscription: true
+        input_channel:
+          destination: mydest  
+    #如果没有配置binding的binder，则使用默认的消息服务提供者
+    
+    bus:
+      trace:
+           ## 开启消息跟踪
+        enabled: false
+
+  zipkin:
+    #defult is true,to use zipkin,false:not use
+    enabled: true
+    base-url: http://localhost:9411/
+    sleuth:
+      sampler:
+        probability: 1.0
+
+mybatis:
+  mapper-locations: classpath:cloud/simple/service/dao/*.xml
+## 刷新时，关闭安全验证
+management:
+  security:
+    enabled: false
+feign:
+  hystrix:
+    enabled: true

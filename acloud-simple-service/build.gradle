@@ -1,0 +1,24 @@
+
+    dependencies {
+
+        compile(project(":acloud-simple-api"))
+        //Springboot2.0 数据源默认Hikaricp
+        compile ("org.springframework.boot:spring-boot-starter-jdbc")
+
+            //使用druid
+            //compile("com.alibaba:druid:1.1.2")
+            compile 'com.alibaba:druid-spring-boot-starter:1.1.10'
+
+    		compile("mysql:mysql-connector-java:${mysqlVersion}")
+            compile("org.mybatis.spring.boot:mybatis-spring-boot-starter:${springBootMyBatisVersion}")
+            compile("org.springframework.boot:spring-boot-starter-webflux")
+        //compile("com.github.pagehelper:pagehelper-spring-boot-starter:${springBootpagehelperVersion}")
+        //compile("org.springframework:spring-webmvc:5.0.6.RELEASE")
+        compile("org.springframework.cloud:spring-cloud-starter-zipkin")
+        //compile("org.springframework.boot:spring-boot-starter-web")
+        //compile("org.springframework.data:spring-data-solr")
+        //compile("org.springframework.data:spring-data-redis")
+
+        compile("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+        compile("org.springframework.boot:spring-boot-starter-data-mongodb-reactive")
+    }

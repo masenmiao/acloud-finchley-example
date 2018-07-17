@@ -1,0 +1,20 @@
+server:
+  port: ${config.port:8502}
+
+# acloud-eureka 通过 componse links 配置
+spring:
+#bus rabbitmq配置，用于接收 bus/refresh配置变更请求
+  rabbitmq:
+    host: ${rabbitmq.ip:rabbitmq}
+    port: 5672
+    username: guest
+    password: guest
+  zipkin:
+    #defult is true
+    enabled: false
+## 刷新时，关闭安全验证
+management:
+  security:
+    enabled: false
+##Application Context ID must be unique多个实例使用的端口相同时，需要增加该配置
+##spring.application.index
