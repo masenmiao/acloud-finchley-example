@@ -1,9 +1,7 @@
 server:
   port: ${simple.service.port:8601}
 
-spring: 
-  application:
-    name: cloud-simple-service
+spring:
   boot:
     #admin监控配置，admin版本待升级到稳定版
     admin:

@@ -4,8 +4,6 @@ server:
 #,http\://zlhost\:8762/eureka/
   
 spring:
-  application:
-    name: cloud-simple-ui
   cloud:
     stream:
       bindings:
