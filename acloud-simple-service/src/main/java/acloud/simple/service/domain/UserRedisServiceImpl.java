@@ -5,6 +5,7 @@ import acloud.simple.service.dao.UserDao;
 import acloud.simple.service.data.User;
 import acloud.simple.service.spe.UserReactiveService;
 import acloud.simple.service.spe.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.ReactiveHashOperations;
@@ -29,6 +30,7 @@ ReactiveValueOperations 是 String（或 value）的操作视图，
 操作视图还有 ReactiveHashOperations、ReactiveListOperations、ReactiveSetOperations 和 ReactiveZSetOperations 等
 */
 
+@Slf4j
 @Service
 public class UserRedisServiceImpl implements UserReactiveService {
 
@@ -61,15 +63,19 @@ public class UserRedisServiceImpl implements UserReactiveService {
     @PostConstruct
     public void initCacheUsers() {
         System.out.println("初始化 redis users.");
-        ReactiveHashOperations<String, String, User> hashOperations = reactiveRedisTemplate.opsForHash();
-        List<User> list = userMapper.findAll();
-        if (CollectionUtils.isNotEmpty(list)) {
-            User usre = null;
-            for (int i = 0; i < list.size(); i++) {
-                usre= list.get(i);
-                System.out.println(usre);
-                hashOperations.put(USER, usre.getId(), usre).block();
+        try {
+            ReactiveHashOperations<String, String, User> hashOperations = reactiveRedisTemplate.opsForHash();
+            List<User> list = userMapper.findAll();
+            if (CollectionUtils.isNotEmpty(list)) {
+                User usre = null;
+                for (int i = 0; i < list.size(); i++) {
+                    usre = list.get(i);
+                    System.out.println(usre);
+                    hashOperations.put(USER, usre.getId(), usre).block();
+                }
             }
+        }catch(Exception ex){
+            log.warn("连接不上redis");
         }
     }
 

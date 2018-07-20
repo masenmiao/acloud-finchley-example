@@ -2,14 +2,6 @@ server:
   port: ${simple.service.port:8601}
 
 spring:
-  boot:
-    #admin监控配置，admin版本待升级到稳定版
-    admin:
-      client:
-        url: http://${admin.ip:localhost}:8505
-        instance:
-          service-base-url:  http://${spring.cloud.client.ip-address}:8601
-          prefer-ip: true
   cloud:
     stream:
       bindings:
