@@ -34,6 +34,9 @@ mybatis:
 management:
   security:
     enabled: false
+  health:
+    defaults:
+      enabled: false
 feign:
   hystrix:
     enabled: true

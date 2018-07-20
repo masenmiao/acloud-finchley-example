@@ -40,6 +40,13 @@ spring:
     producer:
       group: my-group
 
+management:
+  security:
+    enabled: false
+  health:
+    defaults:
+      enabled: false
+
 feign:
   hystrix:
     enabled: true

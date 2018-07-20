@@ -62,15 +62,5 @@ spring:
   data:
     mongodb:
       uri: mongodb://10.101.25.179:27017/cmdb
-
-  cloud:
-    consul:
-      host: ${consul_ip:172.25.16.46}
-      port: 8500
-      discovery:
-          prefer-ip-address: true
-          healthCheckPath: /actuator/health
-          healthCheckInterval: 15s
-          instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 my:
   message: hello world cloud application

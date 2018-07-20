@@ -25,7 +25,7 @@ spring:
           uri: ${git.uri:https://github.com/masenmiao/acloud-finchley-example.git}
           search-paths: ${git.paths:config/*}
     consul:
-      host: ${consul_ip:localhost}
+      host: ${consul_ip:172.25.16.46}
       port: 8500
       discovery:
         prefer-ip-address: true
