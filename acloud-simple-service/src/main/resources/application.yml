@@ -6,20 +6,6 @@ spring:
     name: cloud-simple-service
 
   cloud:
-    #该版本，以下参数必须放到bootstrap.properties文件中
-    #config:
-      #uri: http://127.0.0.1:${config.port:8502}
-      #通过eureka,便于config集群
-      #enabled:  true
-      #name: cloud-config
-      #lable: master
-      #name时 文件 cloud-config-test.properties名称
-      #通过eureka 发现config server服务，上面就不用配置
-      #profile: ${config.profile:dev}
-      #discovery:
-        #enabled: true
-        #serviceId: cloud-config-server
-        #serviceId: config service name
     stream:
       bindings:
         input:
@@ -55,6 +41,9 @@ mybatis:
 management:
   security:
     enabled: false
+  health:
+    defaults:
+      enabled: false
 feign:
   hystrix:
     enabled: true

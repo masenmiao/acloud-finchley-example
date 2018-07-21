@@ -21,3 +21,6 @@ management:
       enabled: false
 ##Application Context ID must be unique多个实例使用的端口相同时，需要增加该配置
 ##spring.application.index
+
+#测试配置单独，是因为正式配置可以默认一些服务名的配置，部署时就可以不用指定了
+#当然，删掉test，只用一份配置是可以的，本地调试需要修改为localhost的测试地址，或配置 服务名 和 localhost 的hosts dns关系

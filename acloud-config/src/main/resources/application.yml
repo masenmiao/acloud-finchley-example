@@ -16,5 +16,8 @@ spring:
 management:
   security:
     enabled: false
+  health:
+    defaults:
+      enabled: false
 ##Application Context ID must be unique多个实例使用的端口相同时，需要增加该配置
 ##spring.application.index

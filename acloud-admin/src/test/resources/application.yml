@@ -1,18 +1,34 @@
-spring:
-  application:
-    name: admin-dashboard
-
 server:
   port: ${admin.port:8505}
 
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.ip:localhost}:8501/eureka/
-  instance:
-    hostname: ${hostname:admin}
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID
 management:
   secutiry:
     enabled: false
+  health:
+    defaults:
+      enabled: false
+spring:
+  application:
+    name: admin-dashboard
+  zipkin:
+    #defult is true
+    enabled: false
+  cloud:
+    consul:
+       host: ${consul_ip:172.25.16.46}
+       port: 8500
+       discovery:
+         prefer-ip-address: true
+         healthCheckPath: /actuator/health
+         healthCheckInterval: 15s
+         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+
+
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://${eureka.ip:localhost}:8501/eureka/
+#  instance:
+#    hostname: ${hostname:admin}
+#    prefer-ip-address: true
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID

@@ -36,5 +36,5 @@ spring:
           prefer-ip-address: true
           healthCheckPath: /actuator/health
           healthCheckInterval: 15s
-          #instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+          instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 

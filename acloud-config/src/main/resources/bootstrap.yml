@@ -1,12 +1,12 @@
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka_ip:acloud-eureka}:8501/eureka/
-  instance:
-    prefer-ip-address: true  #未配置hostname时 使用本机ip地址作为主机名 ipAddress是ip地址
-    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID
-    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
-    lease-expiration-duration-in-seconds: 10  # 发呆时间，即服务续约到期时间（缺省为90s）  
+#eureka:
+#  client:
+#    serviceUrl:
+#      defaultZone: http://${eureka_ip:acloud-eureka}:8501/eureka/
+#  instance:
+#    prefer-ip-address: true  #未配置hostname时 使用本机ip地址作为主机名 ipAddress是ip地址
+#    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID
+#    lease-renewal-interval-in-seconds: 5      # 心跳时间，即服务续约间隔时间（缺省为30s）
+#    lease-expiration-duration-in-seconds: 10  # 发呆时间，即服务续约到期时间（缺省为90s）
 
 # acloud-eureka 通过 componse links 配置
 spring:
@@ -25,6 +25,15 @@ spring:
           search-paths: ${git.paths:config/*}
           #cloud-config-repo
       #获取环境，关于eureka.ip的配置
+    consul:
+    #本地默认配置，其它环境更需要替换consul_ip为consul的负载均衡服务名，如acloud-consul
+      host: ${consul_ip:172.25.16.46}
+      port: 8500
+      discovery:
+        prefer-ip-address: true
+        healthCheckPath: /actuator/health
+        healthCheckInterval: 15s
+        instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
 
 #以上配只能放在bootstrap.properties这个文件中
 
