@@ -27,7 +27,7 @@ spring:
       #获取环境，关于eureka.ip的配置
     consul:
     #本地默认配置，其它环境更需要替换consul_ip为consul的负载均衡服务名，如acloud-consul
-      host: ${consul_ip:172.25.16.46}
+      host: ${consul_ip:localhost}
       port: 8500
       discovery:
         prefer-ip-address: true

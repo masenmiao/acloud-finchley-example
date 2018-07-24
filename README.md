@@ -58,5 +58,6 @@ https://www.consul.io/downloads.html
 因为在springboot2.0以后，官方不再建议自己搭建zipkin的服务端，而是提供现成的jar包，直接运行即可
 
 ##### 问题和注意：
+Openfeign  目前不支持reactive
 springfox-swagger2  目前不支持reactive
 RocketMQ  脚手架暂不支持SpringBoot2.0

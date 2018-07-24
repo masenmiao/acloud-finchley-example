@@ -24,8 +24,11 @@ public class StreamReceiver {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());  
 	//代表一个消息输入
 	@StreamListener(Barista.INPUT_CHANNEL)
-	public void receiver(Message<Object> message){  
-		Object obj = message.getPayload();  
+	public void receiver(Message<Object> message){
+		System.out.println("message:" + message);
+		Object obj = message.getPayload();
+		//todo message.getPayload()需要从byte 转 String 到 Object
+		//可以使用CompositeMessageConverterFactory
 		this.logger.info("obj : {}",obj);
         
     }

@@ -46,6 +46,11 @@ management:
       base-path: /actuator
       exposure:
         include: hystrix.stream,health,info
+  security:
+    enabled: false
+  health:
+    defaults:
+      enabled: false
 feign:
   hystrix:
     enabled: true

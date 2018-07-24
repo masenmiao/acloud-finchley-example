@@ -6,25 +6,27 @@ spring:
     name: acloud-turbine
   cloud:
     config:
-      name: application-common
+      name: application-common,acloud-simple
       lable: ${config.lable:master}
-      profile: ${config.profile:dev}
+      #//有dev/test/等，这里连test ali云mysql
+      profile: ${config_profile:dev}
       #config client must add enabled property,however connect to config server refuze
       enabled: true
       failFast: true
       retry:
-        maxAttempts: 5
+        maxAttempts: 20
       discovery:
         enabled: true
         serviceId: cloud-config-server
+  #因为注册中心先要找到，才能找到配置中心，所以，下面的配置没法放到配置中心
     consul:
        host: ${consul_ip:localhost}
        port: 8500
        discovery:
-         prefer-ip-address: true
-         healthCheckPath: /actuator/health
-         healthCheckInterval: 15s
-         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+          prefer-ip-address: true
+          healthCheckPath: /actuator/health
+          healthCheckInterval: 15s
+          instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   rabbitmq:
     host: localhost
     port: 5672

@@ -5,9 +5,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-
-
-
+import org.springframework.cloud.stream.converter.CompositeMessageConverterFactory;
+import org.springframework.context.annotation.Bean;
+import org.springframework.integration.context.IntegrationContextUtils;
+import org.springframework.integration.support.converter.ConfigurableCompositeMessageConverter;
 
 /**
  * 应用启动类
@@ -22,5 +23,10 @@ public class SimpleBootstrap {
         SpringApplication.run(SimpleBootstrap.class, args);
         
         
+    }
+
+    @Bean(name = IntegrationContextUtils.ARGUMENT_RESOLVER_MESSAGE_CONVERTER_BEAN_NAME)
+    public ConfigurableCompositeMessageConverter configurableCompositeMessageConverter(CompositeMessageConverterFactory factory){
+        return new ConfigurableCompositeMessageConverter(factory.getMessageConverterForAllRegistered().getConverters());
     }
 }

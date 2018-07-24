@@ -15,7 +15,7 @@ spring:
     config:
       name: application-common,acloud-simple
       lable: ${config.lable:master}
-      profile: ${config_profile:test}
+      profile: ${config_profile:dev}
       #config client must add enabled property,however connect to config server refuze
       enabled: true
       failFast: true
@@ -25,7 +25,7 @@ spring:
         enabled: true
         serviceId: cloud-config-server
     consul:
-       host: ${consul_ip:172.25.16.46}
+       host: ${consul_ip:localhost}
        port: 8500
        discovery:
          prefer-ip-address: true
