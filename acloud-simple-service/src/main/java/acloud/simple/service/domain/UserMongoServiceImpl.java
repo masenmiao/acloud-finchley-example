@@ -24,7 +24,7 @@ import java.util.List;
  * @author masen
  */
 @Slf4j
-@Service
+//@Service
 public class UserMongoServiceImpl implements UserReactiveService {
 
     @Autowired

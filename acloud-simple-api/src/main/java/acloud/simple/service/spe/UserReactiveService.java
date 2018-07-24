@@ -11,7 +11,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@FeignClient("cloud-user-flux-service")
+@FeignClient("cloud-simple-service")
 public interface UserReactiveService {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/fluxSearchAll")

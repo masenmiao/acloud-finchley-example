@@ -59,8 +59,8 @@ public class UserController {
 	@Resource(name = "userRedisServiceImpl")
 	UserReactiveService redisService;
 
-	@Resource(name = "userMongoServiceImpl")
-	UserReactiveService mongoService;
+//	@Resource(name = "userMongoServiceImpl")
+//	UserReactiveService mongoService;
 	//远程配置
 	@Value("${my.message}")
 	private String messageString;
@@ -84,10 +84,10 @@ public class UserController {
 	public Flux<User> searchAllRedis(){
 		return redisService.searchAll();
 	}
-	@GetMapping(value="/userMongo",produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
-	public Flux<User> searchAllMongo(){
-		return mongoService.searchAll();
-	}
+//	@GetMapping(value="/userMongo",produces = MediaType.APPLICATION_STREAM_JSON_VALUE)
+//	public Flux<User> searchAllMongo(){
+//		return mongoService.searchAll();
+//	}
 
 
 //	@ApiOperation("查询用户通过ID")
@@ -120,9 +120,9 @@ public class UserController {
 		System.out.println("message id is:"+id);
 		return redisService.searchUser(id);
 	}
-	@GetMapping(value="/findByIdMongo")
-	public Mono<User> findByIdMongo(@RequestParam("id") String id){
-		System.out.println("message id is:"+id);
-		return mongoService.searchUser(id);
-	}
+//	@GetMapping(value="/findByIdMongo")
+//	public Mono<User> findByIdMongo(@RequestParam("id") String id){
+//		System.out.println("message id is:"+id);
+//		return mongoService.searchUser(id);
+//	}
 }
