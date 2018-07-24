@@ -37,7 +37,7 @@ zipkin |          9411 | 否
 - api ：  公共接口和数据模块
 - service ：  后台服务
 - ui    ： web前台服务（可以不需要，服务统一放在service，前提是动静已经分离）
-    如：
+>如：
     acloud(项目)-simple(模块名)-API(公共接口和数据)
     acloud(项目)-simple(模块名)-service(后台服务)
     acloud(项目)-simple(模块名)-ui(前端服务)
@@ -56,8 +56,6 @@ https://www.consul.io/downloads.html
 
 #### zipkin
 因为在springboot2.0以后，官方不再建议自己搭建zipkin的服务端，而是提供现成的jar包，直接运行即可
-
-
 
 ##### 问题和注意：
 springfox-swagger2  目前不支持reactive
