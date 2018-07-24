@@ -32,6 +32,13 @@ mybatis:
   mapper-locations: classpath:cloud/simple/service/dao/*.xml
 ## 刷新时，关闭安全验证
 management:
+  endpoints:
+    health:
+      enabled: true
+    web:
+      base-path: /actuator
+      exposure:
+        include: hystrix.stream,health,info
   security:
     enabled: false
   health:

@@ -18,7 +18,7 @@ spring:
       name: application-common,acloud-simple
       lable: ${config.lable:master}
       #//有dev/test/等，这里连test ali云mysql
-      profile: ${config_profile:test}
+      profile: ${config_profile:dev}
       #config client must add enabled property,however connect to config server refuze
       enabled: true
       failFast: true
@@ -29,7 +29,7 @@ spring:
         serviceId: cloud-config-server
   #因为注册中心先要找到，才能找到配置中心，所以，下面的配置没法放到配置中心
     consul:
-       host: ${consul_ip:172.25.16.46}
+       host: ${consul_ip:localhost}
        port: 8500
        discovery:
           prefer-ip-address: true

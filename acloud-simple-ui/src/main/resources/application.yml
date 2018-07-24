@@ -33,6 +33,13 @@ spring:
 #cloud-simple-service.ribbon.ConnectTimeout=5000
 #cloud-simple-service.ribbon.ReadTimeout=10000
 management:
+  endpoints:
+    health:
+      enabled: true
+    web:
+      base-path: /actuator
+      exposure:
+        include: hystrix.stream,health,info
   security:
     enabled: false
   health:

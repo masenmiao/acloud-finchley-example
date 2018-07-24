@@ -3,39 +3,29 @@ server:
 
 spring:
   application:
-    name: turbine
+    name: acloud-turbine
   cloud:
-    config:
-      name: application-common
-      lable: ${config.lable:master}
-      profile: ${config.profile:dev}
-      #config client must add enabled property,however connect to config server refuze
-      enabled: true
-      failFast: true
-      retry:
-        maxAttempts: 5
-      discovery:
-        enabled: true
-        serviceId: cloud-config-server
+    consul:
+       host: ${consul_ip:172.25.16.46}
+       port: 8500
+       discovery:
+         prefer-ip-address: true
+         healthCheckPath: /actuator/health
+         healthCheckInterval: 15s
+         instanceId: ${spring.application.name}:${spring.application.instance_id:${random.value}}
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
-    password: guest   
-         
+    password: guest
+
 management:
-  security:
-    enabled: false    
-    
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://${eureka.ip:localhost}:8501/eureka/
-  instance:
-    leaseRenewallIntervallnSeconds: 10#心跳间隔
-    hostname: ${hostname:turbine}
-    prefer-ip-address: true
-    instance-id: ${spring.cloud.client.ip-address}:${server.port} #eureka Status列显示的 实例ID
+  secutiry:
+    enabled: false
+  health:
+    defaults:
+      enabled: false
+
 turbine:
   aggregator:
     clusterConfig: default  #指定集群

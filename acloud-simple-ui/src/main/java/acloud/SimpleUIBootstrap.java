@@ -9,6 +9,7 @@ package acloud;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.SpringCloudApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.netflix.hystrix.EnableHystrix;
@@ -20,13 +21,15 @@ import org.springframework.web.client.RestTemplate;
 
 import feign.Request;
 
-@SpringBootApplication
-//@EnableEurekaClient
-@EnableHystrix
-@EnableCircuitBreaker
-@EnableFeignClients
+//@SpringBootApplication
+////@EnableEurekaClient
+//@EnableHystrix
+//@EnableCircuitBreaker
+//@EnableFeignClients
 
 //并打开 http://localhost:port/hystrix 来访问我们的控制面板，输入 http://localhost:port/hystrix.stream 来监控我们的访问(待测试)
+@SpringCloudApplication
+@EnableFeignClients
 public class SimpleUIBootstrap {
 
 	public static void main(String[] args) throws Exception {

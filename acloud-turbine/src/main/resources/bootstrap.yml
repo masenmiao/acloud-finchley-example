@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: turbine
+    name: acloud-turbine
   cloud:
     config:
       name: application-common
@@ -18,7 +18,7 @@ spring:
         enabled: true
         serviceId: cloud-config-server
     consul:
-       host: ${consul_ip:172.25.16.46}
+       host: ${consul_ip:localhost}
        port: 8500
        discovery:
          prefer-ip-address: true
