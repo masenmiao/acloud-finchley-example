@@ -42,12 +42,12 @@ zipkin |          9411 | 否
     acloud(项目)-simple(模块名)-service(后台服务)
     acloud(项目)-simple(模块名)-ui(前端服务)
 
+#### 中间件安装
+只有mysql必须，其它关闭了actuator health的检查
+
 #### consul ：
 consul安装并启动：
 https://www.consul.io/downloads.html
-
-#### 中间件安装
-只有mysql必须，其它关闭了actuator health的检查
 
 #### turbine web console ：
 - 进入: http://localhost:8506/hystrix/
