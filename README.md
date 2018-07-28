@@ -8,6 +8,7 @@
 - Spring Cloud Gateway 服务网关
 - Spring-cloud-hystrix 熔断降级
 - Spring-cloud-Ribbon负载均衡(Feign,hystrix依赖它)
+- Spring cloud stream 消息流
 - spring-boot-admin,actuator boot应用指标监控
 - Spring Cloud Turbine ,hystrix-dashboar 调用指标
 - Spring Cloud Sleuth , Zipkin 调用链
@@ -55,7 +56,10 @@ https://www.consul.io/downloads.html
 注意：有feign的调用时（使用hystrix时），hystrix监控界面才会显示，否则一直loading
 
 #### zipkin
-因为在springboot2.0以后，官方不再建议自己搭建zipkin的服务端，而是提供现成的jar包，直接运行即可
+最新版,zipkin提供了编译好的 jar 包,直接运行即可：
+java -DRABBIT_ADDRESSES=localhost -jar zipkin.jar
+或者：
+docker run -d -p 9411:9411 openzipkin/zipkin
 
 ##### 问题和注意：
 Openfeign  目前不支持reactive
