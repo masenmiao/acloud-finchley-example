@@ -62,6 +62,6 @@ java -DRABBIT_ADDRESSES=localhost -jar zipkin.jar
 docker run -d -p 9411:9411 openzipkin/zipkin
 
 ##### 问题和注意：
-Openfeign  目前不支持reactive，参考https://github.com/OpenFeign/feign/tree/master/reactive
-springfox-swagger2  目前不支持reactive
+Openfeign  目前不支持reactive，参考https://github.com/OpenFeign/feign/tree/master/reactive< br>
+springfox-swagger2  目前不支持reactive< br>
 RocketMQ  脚手架暂不支持SpringBoot2.0
