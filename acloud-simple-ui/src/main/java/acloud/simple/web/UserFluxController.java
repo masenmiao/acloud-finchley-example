@@ -38,7 +38,8 @@ public class UserFluxController {
 
 	/**
 	 * 问题：Openfeign  还不支持反应式
-	 * @return
+	 * feign该版本不支持reactive ,
+	 * 参考：https://github.com/OpenFeign/feign/tree/master/reactive
 	 */
 
 	@GetMapping(value="/fluxFindAll")

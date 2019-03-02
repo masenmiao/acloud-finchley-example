@@ -14,6 +14,10 @@ import java.util.List;
 @FeignClient("cloud-simple-service")
 public interface UserReactiveService {
 
+	/**
+	 * feign该版本不支持reactive ,
+	 * 参考：https://github.com/OpenFeign/feign/tree/master/reactive
+	 */
 	@RequestMapping(method = RequestMethod.GET, value = "/fluxSearchAll")
 	public Flux<User> searchAll();
 
